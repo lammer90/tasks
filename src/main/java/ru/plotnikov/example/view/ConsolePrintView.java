@@ -6,12 +6,12 @@ import ru.plotnikov.example.model.Task;
 import java.util.List;
 
 public class ConsolePrintView {
-    
-    public void printMassage(String massege){
-        System.out.println(massege);
+
+    public void printMassage(String massege) {
+        System.out.println(massege + "\n");
     }
-    
-    public void printMenu(){
+
+    public void printMenu() {
         System.out.println("Выберите пункт меню для дальнейших действий: \n" +
                 "1. Показать все проекты с задачами; \n" +
                 "2. Показать все проекты; \n" +
@@ -21,7 +21,7 @@ public class ConsolePrintView {
                 "6. Выход. \n");
     }
 
-    public void printTaskMenu(){
+    public void printTaskMenu() {
         System.out.println("Выберите пункт меню для дальнейших действий: \n" +
                 "1. Добавить задачу; \n" +
                 "2. Обновить задачу; \n" +
@@ -37,18 +37,15 @@ public class ConsolePrintView {
                 "4. Вернуться. \n");
     }
 
-    public void printAllProjectsWithTasks(List<Project> projects, List<Task> tasks){
+    public void printAllProjectsWithTasks(List<Project> projects, List<Task> tasks) {
         projects.forEach(project -> {
-            //System.out.println("Проект: {");
-            System.out.println(project.toString());
-            //System.out.println("          Задача: [");
-            tasks.stream().filter(t -> t.getProject().equals(project)).forEach(t -> System.out.println(t.toString()));
-            //System.out.println("          ]");
-            //System.out.println("}");
+            System.out.println(project.toString() + "\n");
+            tasks.stream().filter(t -> t.getProject().equals(project)).forEach(t -> System.out.println(t.toString() + "\n"));
+
         });
     }
 
-    public <T> void printAll(List<T> projects){
-        projects.forEach(project -> System.out.println(project.toString()));
+    public <T> void printAll(List<T> projects) {
+        projects.forEach(project -> System.out.println(project.toString() + "\n"));
     }
 }

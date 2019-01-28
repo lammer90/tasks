@@ -15,14 +15,18 @@ public class InMemoryProjectRepository {
     private Map<Integer, Project> storage = new HashMap<>();
 
     public int addProject(Project project) {
-        int newId = ID++;
+        int newId = ++ID;
         project.setId(newId);
         storage.put(newId, project);
         return newId;
     }
 
-    public Project updateProject(Project project) {
-        return storage.put(project.getId(), project);
+    public Project updateProject(int id, Project project) {
+        if (!storage.containsKey(id)){
+            return null;
+        }
+        project.setId(id);
+        return storage.put(id, project);
     }
 
     public Project getProject(int id) {

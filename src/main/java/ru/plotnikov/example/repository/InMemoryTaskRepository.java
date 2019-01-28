@@ -15,7 +15,7 @@ public class InMemoryTaskRepository {
     private Map<Integer, Task> storage = new HashMap<>();
 
     public int addTask(Task task){
-        int newId = ID++;
+        int newId = ++ID;
         task.setId(newId);
         storage.put(newId, task);
         return newId;

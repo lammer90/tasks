@@ -22,13 +22,12 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Проект{" +
+        return "Проект:" + "\n" +
                 "id=" + id + "\n" +
-                ", Наименование ='" + name + '\'' + "\n" +
-                ", Описание ='" + description + '\'' + "\n" +
-                ", Дата старта проекты =" + startDate + "\n" +
-                ", Дата окончания проекта =" + endDate + "\n" +
-                '}';
+                "Наименование = '" + name + '\'' + "\n" +
+                "Описание = '" + description + '\'' + "\n" +
+                "Дата старта проекта = " + startDate + "\n" +
+                "Дата окончания проекта = " + endDate + "\n";
     }
 
     public int getId() {

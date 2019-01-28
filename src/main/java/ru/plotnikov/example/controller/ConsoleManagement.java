@@ -62,10 +62,49 @@ public class ConsoleManagement {
                     scanner.close();
                     break;
                 }
-                default: break;
+                default:
+                    break;
             }
         }
 
+    }
+
+    private void updateProject(ConsoleManagement manager) {
+        view.printProjectMenu();
+        int i = scanner.nextInt();
+        switch (i) {
+            case 1: {
+                scanner.nextLine();
+                view.printMassage("Введите реквизиты нового проекта");
+                view.printMassage("id нового проекта: " + projectRepository.addProject(readProject()));
+                break;
+            }
+            case 2: {
+                scanner.nextLine();
+                view.printMassage("Введите id редактируемого проекта:");
+                int id = scanner.nextInt();
+                scanner.nextLine();
+                view.printMassage("Введите новые реквизиты проекта, если какой-то реквизит не меняется - нажмите Enter:");
+                Project project = readProject();
+                view.printMassage("Обновленный проект: " + projectRepository.updateProject(id, project).toString());
+            }
+            case 3: {
+                scanner.nextLine();
+                view.printMassage("Введите id удаляемого проекта:");
+                int id = scanner.nextInt();
+                projectRepository.deleteProject(id);
+                getAllProjects();
+                break;
+            }
+            case 4: {
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    private void updateTasks(ConsoleManagement manager) {
     }
 
     private void getAllProjectsWithTasks() {
@@ -81,44 +120,19 @@ public class ConsoleManagement {
         view.printAll(taskRepository.getAllTaskFilter(scanner.nextInt()));
     }
 
-    private void updateProject(ConsoleManagement manager) {
-        view.printProjectMenu();
-        int i = scanner.nextInt();
-        switch (i) {
-            case 1: {
-                view.printMassage("Введите наименование проекта:");
-                String name = scanner.nextLine();
-                view.printMassage("Введите описание проекта:");
-                String desc = scanner.nextLine();
-                view.printMassage("Введите дату старта проекта:");
-                LocalDate date1 = LocalDate.parse(scanner.nextLine());
-                view.printMassage("Введите дату окончания проекта:");
-                LocalDate date2 = LocalDate.parse(scanner.nextLine());
-                Project project = new Project(name, desc, date1, date2);
-                projectRepository.addProject(project);
-                break;
-            }
-            case 2: {
-                view.printMassage("Введите поочередно Наименование проекта, описание, дату старта и дату окончания, разделяя ввод нажатием Enter:");
-                Project project = new Project(scanner.nextLine(), scanner.nextLine(), LocalDate.parse(scanner.nextLine()), LocalDate.parse(scanner.nextLine()));
-                projectRepository.addProject(project);
-                break;
-            }
-            case 3: {
-                manager.getAllTasksFilterByProject();
-                break;
-            }
-            case 4: {
-                break;
-            }
-            default: break;
-        }
-    }
-
-    private void updateTasks(ConsoleManagement manager) {
-    }
-
     private void setExit() {
         this.exit = true;
+    }
+
+    private Project readProject(){
+        view.printMassage("Введите наименование проекта:");
+        String name = scanner.nextLine();
+        view.printMassage("Введите описание проекта:");
+        String desc = scanner.nextLine();
+        view.printMassage("Введите дату старта проекта (yyyy-mm-dd):");
+        LocalDate date1 = LocalDate.parse(scanner.nextLine());
+        view.printMassage("Введите дату окончания проекта (yyyy-mm-dd):");
+        LocalDate date2 = LocalDate.parse(scanner.nextLine());
+        return new Project(name, desc, date1, date2);
     }
 }

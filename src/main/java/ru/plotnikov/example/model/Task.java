@@ -34,13 +34,12 @@ public class Task {
 
     @Override
     public String toString() {
-        return "          Задача{" +
+        return "          Задача: " +
                 "          id=" + id + "\n" +
-                "          , Наименование ='" + name + '\'' + "\n" +
-                "          , Описание ='" + description + '\'' + "\n" +
-                "          , Дата создания =" + createDate + "\n" +
-                "          , Дэдлайн =" + deadLine + "\n" +
-                "          }";
+                "          Наименование ='" + name + '\'' + "\n" +
+                "          Описание ='" + description + '\'' + "\n" +
+                "          Дата создания =" + createDate + "\n" +
+                "          Дэдлайн =" + deadLine + "\n";
     }
 
     public int getId() {
