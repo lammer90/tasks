@@ -1,13 +1,12 @@
 package ru.plotnikov.example.controller;
 
+import ru.plotnikov.example.model.Project;
 import ru.plotnikov.example.repository.InMemoryProjectRepository;
 import ru.plotnikov.example.repository.InMemoryTaskRepository;
 import ru.plotnikov.example.view.ConsolePrintView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.util.Scanner;
 
 public class ConsoleManagement {
 
@@ -16,6 +15,10 @@ public class ConsoleManagement {
     private InMemoryTaskRepository taskRepository;
 
     private ConsolePrintView view;
+
+    private static Scanner scanner;
+
+    private boolean exit = false;
 
     public ConsoleManagement(InMemoryProjectRepository projectRepository, InMemoryTaskRepository taskRepository, ConsolePrintView view) {
         this.projectRepository = projectRepository;
@@ -29,15 +32,93 @@ public class ConsoleManagement {
                 new InMemoryTaskRepository(),
                 new ConsolePrintView());
 
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in, Charset.forName("UTF-8")))) {
-
-            while (!bufferedReader.readLine().equals("6")) {
-
+        scanner = new Scanner(System.in);
+        while (!manager.exit) {
+            manager.view.printMenu();
+            int i = scanner.nextInt();
+            switch (i) {
+                case 1: {
+                    manager.getAllProjectsWithTasks();
+                    break;
+                }
+                case 2: {
+                    manager.getAllProjects();
+                    break;
+                }
+                case 3: {
+                    manager.getAllTasksFilterByProject();
+                    break;
+                }
+                case 4: {
+                    manager.updateProject(manager);
+                    break;
+                }
+                case 5: {
+                    manager.updateTasks(manager);
+                    break;
+                }
+                case 6: {
+                    manager.setExit();
+                    scanner.close();
+                    break;
+                }
+                default: break;
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
+    }
+
+    private void getAllProjectsWithTasks() {
+        view.printAllProjectsWithTasks(projectRepository.getAllProject(), taskRepository.getAllTask());
+    }
+
+    private void getAllProjects() {
+        view.printAll(projectRepository.getAllProject());
+    }
+
+    private void getAllTasksFilterByProject() {
+        view.printMassage("Введите id проекта для которого хотите получить задачи:");
+        view.printAll(taskRepository.getAllTaskFilter(scanner.nextInt()));
+    }
+
+    private void updateProject(ConsoleManagement manager) {
+        view.printProjectMenu();
+        int i = scanner.nextInt();
+        switch (i) {
+            case 1: {
+                view.printMassage("Введите наименование проекта:");
+                String name = scanner.nextLine();
+                view.printMassage("Введите описание проекта:");
+                String desc = scanner.nextLine();
+                view.printMassage("Введите дату старта проекта:");
+                LocalDate date1 = LocalDate.parse(scanner.nextLine());
+                view.printMassage("Введите дату окончания проекта:");
+                LocalDate date2 = LocalDate.parse(scanner.nextLine());
+                Project project = new Project(name, desc, date1, date2);
+                projectRepository.addProject(project);
+                break;
+            }
+            case 2: {
+                view.printMassage("Введите поочередно Наименование проекта, описание, дату старта и дату окончания, разделяя ввод нажатием Enter:");
+                Project project = new Project(scanner.nextLine(), scanner.nextLine(), LocalDate.parse(scanner.nextLine()), LocalDate.parse(scanner.nextLine()));
+                projectRepository.addProject(project);
+                break;
+            }
+            case 3: {
+                manager.getAllTasksFilterByProject();
+                break;
+            }
+            case 4: {
+                break;
+            }
+            default: break;
+        }
+    }
+
+    private void updateTasks(ConsoleManagement manager) {
+    }
+
+    private void setExit() {
+        this.exit = true;
     }
 }
