@@ -21,8 +21,12 @@ public class InMemoryTaskRepository {
         return newId;
     }
 
-    public Task updateTask(Task task){
-        return storage.put(task.getId(), task);
+    public Task updateTask(int id, Task task){
+        if (!storage.containsKey(id)){
+            return null;
+        }
+        task.setId(id);
+        return storage.put(id, task);
     }
 
     public Task getTask(int id){

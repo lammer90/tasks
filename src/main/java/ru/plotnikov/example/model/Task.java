@@ -17,18 +17,18 @@ public class Task {
 
     private Project project;
 
-    public Task(String name, String description, LocalDate createDate, LocalDateTime deadLine, Project project) {
+    public Task(String name, String description, LocalDateTime deadLine, Project project) {
         this.name = name;
         this.description = description;
-        this.createDate = createDate;
+        this.createDate = LocalDate.now();
         this.deadLine = deadLine;
         this.project = project;
     }
 
-    public Task(String name, String description, LocalDate createDate, LocalDateTime deadLine) {
+    public Task(String name, String description, LocalDateTime deadLine) {
         this.name = name;
         this.description = description;
-        this.createDate = createDate;
+        this.createDate = LocalDate.now();
         this.deadLine = deadLine;
     }
 
@@ -86,7 +86,8 @@ public class Task {
         return project;
     }
 
-    public void setProject(Project project) {
+    public Task setProject(Project project) {
         this.project = project;
+        return this;
     }
 }
