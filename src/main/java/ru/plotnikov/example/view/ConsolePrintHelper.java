@@ -2,6 +2,7 @@ package ru.plotnikov.example.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.plotnikov.example.controller.Controller;
 import ru.plotnikov.example.model.Project;
 import ru.plotnikov.example.model.Task;
 
@@ -13,6 +14,8 @@ import java.util.Scanner;
 
 public class ConsolePrintHelper {
 
+    private Controller controller;
+
     private Scanner scanner;
     private static final Logger logMagenta = LoggerFactory.getLogger("magenta");
     private static final Logger logCyan = LoggerFactory.getLogger("cyan");
@@ -21,21 +24,91 @@ public class ConsolePrintHelper {
         this.scanner = scanner;
     }
 
-    public int readInt() {
+    public void start(){
+        int i = printMenu();
+        switch (i) {
+            case 1: {
+                printAllProjectsWithTasks(controller.getAllProjects(), controller.getAllTasks());
+                break;
+            }
+            case 2: {
+                printAll(controller.getAllProjects());
+                break;
+            }
+            case 3: {
+                printAll(controller.getAllTasksFilterByProject(readProjectId()));
+                break;
+            }
+            case 4: {
+                projectMenu();
+                break;
+            }
+            case 5: {
+                taskMenu();
+                break;
+            }
+            case 6: {
+                controller.setExit();
+                scanner.close();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    private void projectMenu() {
+        int i = printProjectMenu();
+        switch (i) {
+            case 1: {
+                printMassage("id нового проекта: " + controller.addProject(readProject()));
+                break;
+            }
+            case 2: {
+                printMassage(controller.updateProject(readProjectId(), readProject()));
+                break;
+            }
+            case 3: {
+                printMassage(controller.deleteProject(readProjectId()));
+                printAll(controller.getAllProjects());
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    private void taskMenu() {
+        int i = printTaskMenu();
+        switch (i) {
+            case 1: {
+                printMassage(controller.addTask(readProjectId(), readTask()));
+                break;
+            }
+            case 2: {
+                printMassage(controller.updateTask(readTaskId(), readTask()));
+                break;
+            }
+            case 3: {
+                printMassage(controller.deleteTask(readTaskId()));
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    private int readInt() {
         int i = scanner.nextInt();
         scanner.nextLine();
         return i;
     }
 
-    public Scanner getScanner() {
-        return scanner;
-    }
-
-    public void printMassage(String massege) {
+    private void printMassage(String massege) {
         System.out.println(massege + "\n");
     }
 
-    public int printMenu() {
+    private int printMenu() {
         System.out.println("Выберите пункт меню для дальнейших действий: \n" +
                 "1. Показать все проекты с задачами; \n" +
                 "2. Показать все проекты; \n" +
@@ -46,7 +119,7 @@ public class ConsolePrintHelper {
         return readInt();
     }
 
-    public int printTaskMenu() {
+    private int printTaskMenu() {
         System.out.println("Выберите пункт меню для дальнейших действий: \n" +
                 "1. Добавить задачу; \n" +
                 "2. Обновить задачу; \n" +
@@ -55,7 +128,7 @@ public class ConsolePrintHelper {
         return readInt();
     }
 
-    public int printProjectMenu() {
+    private int printProjectMenu() {
         System.out.println("Выберите пункт меню для дальнейших действий: \n" +
                 "1. Добавить проект; \n" +
                 "2. Обновить проект; \n" +
@@ -64,17 +137,17 @@ public class ConsolePrintHelper {
         return readInt();
     }
 
-    public int readProjectId() {
+    private int readProjectId() {
         printMassage("Введите id проекта:");
         return readInt();
     }
 
-    public int readTaskId() {
+    private int readTaskId() {
         printMassage("Введите id задачи:");
         return readInt();
     }
 
-    public Project readProject() {
+    private Project readProject() {
         printMassage("Введите реквизиты проекта(При редактировании данные, которые не нужно менять можно пропустить, нажав Enter) \n");
         printMassage("Введите наименование проекта:");
         String name = scanner.nextLine();
@@ -94,7 +167,7 @@ public class ConsolePrintHelper {
         return new Project(name, desc, date1, date2);
     }
 
-    public Task readTask() {
+    private Task readTask() {
         printMassage("Введите реквизиты задачи(При редактировании данные, которые не нужно менять можно пропустить, нажав Enter) \n");
         printMassage("Введите наименование задачи:");
         String name = scanner.nextLine();
@@ -133,7 +206,7 @@ public class ConsolePrintHelper {
         }
     }
 
-    public void printAllProjectsWithTasks(List<Project> projects, List<Task> tasks) {
+    private void printAllProjectsWithTasks(List<Project> projects, List<Task> tasks) {
         projects.forEach(project -> {
             logMagenta.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             logMagenta.info(project.toString());
@@ -142,11 +215,15 @@ public class ConsolePrintHelper {
         });
     }
 
-    public <T> void printAll(List<T> projects) {
-        projects.forEach(project -> {
+    private  <T> void printAll(List<T> obj) {
+        obj.forEach(project -> {
             logMagenta.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             logMagenta.info(project.toString() + "\n");
             logMagenta.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         });
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 }

@@ -33,7 +33,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>ru.plotnikov.example.controller.ConsoleManagement</mainClass>
+                            <mainClass>ru.plotnikov.example.ConsoleManagement</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
