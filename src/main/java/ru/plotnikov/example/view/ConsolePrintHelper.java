@@ -2,7 +2,7 @@ package ru.plotnikov.example.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.plotnikov.example.controller.Controller;
+import ru.plotnikov.example.service.TaskServiceImpl;
 import ru.plotnikov.example.model.Project;
 import ru.plotnikov.example.model.Task;
 
@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class ConsolePrintHelper {
 
-    private Controller controller;
+    private TaskServiceImpl controller;
 
     private Scanner scanner;
     private static final Logger logMagenta = LoggerFactory.getLogger("magenta");
@@ -48,7 +48,6 @@ public class ConsolePrintHelper {
                 break;
             }
             case 6: {
-                controller.setExit();
                 scanner.close();
                 break;
             }
@@ -223,7 +222,7 @@ public class ConsolePrintHelper {
         });
     }
 
-    public void setController(Controller controller) {
+    public void setController(TaskServiceImpl controller) {
         this.controller = controller;
     }
 }

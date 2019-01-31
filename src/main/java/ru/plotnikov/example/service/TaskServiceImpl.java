@@ -1,29 +1,26 @@
-package ru.plotnikov.example.controller;
+package ru.plotnikov.example.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.plotnikov.example.model.Project;
 import ru.plotnikov.example.model.Task;
-import ru.plotnikov.example.repository.InMemoryProjectRepository;
-import ru.plotnikov.example.repository.InMemoryTaskRepository;
-import ru.plotnikov.example.view.ConsolePrintHelper;
+import ru.plotnikov.example.repository.ProjectRepository;
+import ru.plotnikov.example.repository.TaskRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Controller {
+@Service
+public class TaskServiceImpl implements TaskService{
 
-    private InMemoryProjectRepository projectRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
-    private InMemoryTaskRepository taskRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
-    private ConsolePrintHelper view;
-
-    private boolean exit = false;
-
-    public Controller(InMemoryProjectRepository projectRepository, InMemoryTaskRepository taskRepository, ConsolePrintHelper view) {
-        this.projectRepository = projectRepository;
-        this.taskRepository = taskRepository;
-        this.view = view;
+    public TaskServiceImpl() {
     }
 
     public String addProject(Project project) {
@@ -115,13 +112,5 @@ public class Controller {
 
     public List<Task> getAllTasksFilterByProject(int id) {
         return taskRepository.getAllTaskFilter(id);
-    }
-
-    public void setExit() {
-        this.exit = true;
-    }
-
-    public boolean isExit() {
-        return exit;
     }
 }

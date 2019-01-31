@@ -1,5 +1,6 @@
 package ru.plotnikov.example.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.plotnikov.example.model.Task;
 
 import java.util.Comparator;
@@ -8,11 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class InMemoryTaskRepository {
+@Repository
+public class InMemoryTaskRepository implements TaskRepository{
 
     private static int ID = 0;
 
     private Map<Integer, Task> storage = new HashMap<>();
+
+    public InMemoryTaskRepository() {
+    }
 
     public int addTask(Task task){
         int newId = ++ID;
