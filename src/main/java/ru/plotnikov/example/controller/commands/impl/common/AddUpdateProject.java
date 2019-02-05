@@ -12,7 +12,7 @@ public abstract class AddUpdateProject extends AbstractCommand<String> {
         return "id проекта: " + process(read());
     }
 
-    private Project read(){
+    private Project read() {
         controller.printMassage("Введите реквизиты проекта(При редактировании данные, которые не нужно менять можно пропустить, нажав Enter) \n");
         controller.printMassage("Введите наименование проекта:");
         String name = controller.readLine();
