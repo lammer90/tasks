@@ -1,16 +1,16 @@
-package ru.plotnikov.example.controller;
+package ru.plotnikov.example.service;
 
 import ru.plotnikov.example.model.Project;
 import ru.plotnikov.example.model.Task;
 import ru.plotnikov.example.repository.InMemoryProjectRepository;
 import ru.plotnikov.example.repository.InMemoryTaskRepository;
-import ru.plotnikov.example.view.ConsolePrintHelper;
+import ru.plotnikov.example.controller.ConsolePrintHelper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Controller {
+public class Service {
 
     private InMemoryProjectRepository projectRepository;
 
@@ -20,7 +20,7 @@ public class Controller {
 
     private boolean exit = false;
 
-    public Controller(InMemoryProjectRepository projectRepository, InMemoryTaskRepository taskRepository, ConsolePrintHelper view) {
+    public Service(InMemoryProjectRepository projectRepository, InMemoryTaskRepository taskRepository, ConsolePrintHelper view) {
         this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
         this.view = view;
