@@ -22,6 +22,7 @@ public class Project {
 
     @Override
     public String toString() {
+
         return "Проект:" + "\n" +
                 "id=" + id + "\n" +
                 "Наименование = '" + name + '\'' + "\n" +
